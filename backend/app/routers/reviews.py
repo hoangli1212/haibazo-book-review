@@ -19,6 +19,7 @@ def list_reviews(
         select(Review, Book.title, Author.name)
         .join(Book, Review.book_id == Book.id)
         .join(Author, Book.author_id == Author.id)
+        .order_by(Review.id.desc())
         .offset((page - 1) * page_size)
         .limit(page_size)
     )

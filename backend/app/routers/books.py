@@ -18,6 +18,7 @@ def list_books(
     stmt = (
         select(Book, Author.name)
         .join(Author)
+        .order_by(Book.id.desc())
         .offset((page - 1) * page_size)
         .limit(page_size)
     )

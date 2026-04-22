@@ -8,7 +8,7 @@ import { EditModal } from "../components/EditModal";
 import { PageHeader } from "../components/PageHeader";
 import { Pagination } from "../components/Pagination";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 export function BooksList() {
   const [books, setBooks] = useState([]);
@@ -24,17 +24,37 @@ export function BooksList() {
     setTotal(response.data.total);
   };
 
-  const loadAuthors = async () => {
-    const response = await getAuthors(1, 100);
-    setAuthors(response.data.items);
-  };
-
   useEffect(() => {
-    loadBooks();
+    let active = true;
+
+    getBooks(page, PAGE_SIZE).then((response) => {
+      if (!active) {
+        return;
+      }
+
+      setBooks(response.data.items);
+      setTotal(response.data.total);
+    });
+
+    return () => {
+      active = false;
+    };
   }, [page]);
 
   useEffect(() => {
-    loadAuthors();
+    let active = true;
+
+    getAuthors(1, 100).then((response) => {
+      if (!active) {
+        return;
+      }
+
+      setAuthors(response.data.items);
+    });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   const handleUpdate = async (values) => {

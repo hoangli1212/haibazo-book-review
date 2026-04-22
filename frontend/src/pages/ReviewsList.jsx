@@ -8,7 +8,7 @@ import { EditModal } from "../components/EditModal";
 import { PageHeader } from "../components/PageHeader";
 import { Pagination } from "../components/Pagination";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 export function ReviewsList() {
   const [reviews, setReviews] = useState([]);
@@ -24,17 +24,37 @@ export function ReviewsList() {
     setTotal(response.data.total);
   };
 
-  const loadBooks = async () => {
-    const response = await getBooks(1, 100);
-    setBooks(response.data.items);
-  };
-
   useEffect(() => {
-    loadReviews();
+    let active = true;
+
+    getReviews(page, PAGE_SIZE).then((response) => {
+      if (!active) {
+        return;
+      }
+
+      setReviews(response.data.items);
+      setTotal(response.data.total);
+    });
+
+    return () => {
+      active = false;
+    };
   }, [page]);
 
   useEffect(() => {
-    loadBooks();
+    let active = true;
+
+    getBooks(1, 100).then((response) => {
+      if (!active) {
+        return;
+      }
+
+      setBooks(response.data.items);
+    });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   const handleUpdate = async (values) => {

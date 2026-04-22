@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export function EditModal({
   title,
@@ -7,12 +7,8 @@ export function EditModal({
   onCancel,
   onSubmit,
 }) {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(() => initialValues);
   const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    setValues(initialValues);
-  }, [initialValues]);
 
   const setField = (name, value) => {
     setValues((current) => ({

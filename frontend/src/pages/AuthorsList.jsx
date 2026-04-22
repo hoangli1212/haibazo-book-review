@@ -7,7 +7,7 @@ import { EditModal } from "../components/EditModal";
 import { PageHeader } from "../components/PageHeader";
 import { Pagination } from "../components/Pagination";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 export function AuthorsList() {
   const [authors, setAuthors] = useState([]);
@@ -23,7 +23,20 @@ export function AuthorsList() {
   };
 
   useEffect(() => {
-    loadAuthors();
+    let active = true;
+
+    getAuthors(page, PAGE_SIZE).then((response) => {
+      if (!active) {
+        return;
+      }
+
+      setAuthors(response.data.items);
+      setTotal(response.data.total);
+    });
+
+    return () => {
+      active = false;
+    };
   }, [page]);
 
   const handleUpdate = async (values) => {

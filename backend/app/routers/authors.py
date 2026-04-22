@@ -19,6 +19,7 @@ def list_authors(
         select(Author, func.count(Book.id).label("books_count"))
         .outerjoin(Book)
         .group_by(Author.id)
+        .order_by(Author.id.desc())
         .offset((page - 1) * page_size)
         .limit(page_size)
     )

@@ -1,4 +1,4 @@
-import { BookOpen, MessageSquareText, PenLine, Users } from "lucide-react";
+import { BookOpen, MessageSquareText, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 function MenuSection({ icon, title, links }) {
@@ -11,7 +11,7 @@ function MenuSection({ icon, title, links }) {
 
       <div className="menu-links">
         {links.map((link) => (
-          <NavLink key={link.to} className="menu-link" to={link.to}>
+          <NavLink key={link.to} className="menu-link" to={link.to} end>
             {link.label}
           </NavLink>
         ))}
