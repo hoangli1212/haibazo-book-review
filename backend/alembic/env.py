@@ -1,4 +1,5 @@
 from logging.config import fileConfig
+from app.config import settings
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
@@ -58,8 +59,10 @@ def run_migrations_online() -> None:
 
     In this scenario we need to create an Engine
     and associate a connection with the context.
-
+    
     """
+    config.set_main_option("sqlalchemy.url", settings.database_url)
+
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
