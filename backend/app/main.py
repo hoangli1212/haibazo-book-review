@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routers import authors
+from app.routers import authors, books
 
 app = FastAPI(title="HAIBAZO Book Review API")
 
@@ -14,6 +14,7 @@ app.add_middleware(
 )
 
 app.include_router(authors.router, prefix="/api/authors", tags=["Authors"])
+app.include_router(books.router, prefix="/api/books", tags=["Books"])
 
 
 @app.get("/")
